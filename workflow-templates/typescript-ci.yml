@@ -6,21 +6,28 @@ on:
   pull-request:
     branches: [ $default-branch ]
 
+permissions:
+  contents: read
+  packages: write
+  actions: write
+
 env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   TC_TOKEN: ${{ secrets.TC_CLOUD_TOKEN }}
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-  ENVIRONMENT: staging
+  GH_ENV: testing
+  CI: true
 
 jobs:
   unit-test:
-    name: Compile and Unit testing
+    name: Test TypeScript & Unit Tests
     runs-on: ubuntu-latest
-    environment: ${{ env.ENVIRONMENT }}
+    environment: ${{ env.GH_ENV }}
     outputs:
       job_id: ${{ steps.job_step.outputs.job_id }}
     strategy:
       fail-fast: false
+
     steps:
       - name: Job ID output
         id: job_step
@@ -29,47 +36,57 @@ jobs:
           echo "Initiating unit test job"
 
       - name: Checkout repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: pnpm setup
-        uses: pnpm/action@
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
 
       - name: Node setup
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
         with:
-          node-version: ${{ matrix.node }}
-          cache: 'pnpm'
+          node-version-file: .nvmrc
+          cache: pnpm
 
-      - name: Install deps and build
-        # for now, keeping all pnpm scripts seperate for logging
+      - name: Install deps, build, and test
+        # for now, keeping all pnpm scripts on seperate lines for logging
         run: |-
           pnpm install
           pnpm run lint
           pnpm run format
-          pnpm run type --if-present
-          pnpm run test:unit
+          pnpm run tsc --if-present
+          pnpm run test-ci:unit
           pnpm run build --if-present
 
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: dist-artifact
+          name: dist
           pattern: dist/*/**
-          path: $GITHUB_WORKSPACE/dist
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
         with:
           name: code-coverage-report
-          path: out/test/code-coverage.html
+          path: dist/test/code-coverage.html
 
   integration-test:
     name: Integration Testing
     runs-on: ubuntu-latest
+    environment: ${{ env.GH_ENV }}
     needs: unit-test
     steps:
       - name: Checkout repository code
         uses: actions/checkout@v4
+
+      - name: Download production artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+
+      - name: Download code coverage artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: code-coverage-report
 
       - name: pnpm setup
         uses: pnpm/action@
