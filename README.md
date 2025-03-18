@@ -9,10 +9,10 @@ GitHub workflow and action templates, as well as some configurations.
 
 ### Reusable Workflows
 
-- [TypeScript CI (using PNPM package manager)](./workflow-templates/typescript-ci.yml)
-- [Basic Checks](./workflow-templates/resuable-workflows/basic-test.yml)
-- [Check Dist Directory](./workflow-templates/resuable-workflows/check-dist.yml)
-- [Update Configs](./workflow-templates/resuable-workflows/update-configs.yml)
+- [TypeScript CI (using PNPM package manager)](./reusable-workflows/typescript-ci.yml)
+- [Basic Checks](./reusable-workflows/basic-test.yml)
+- [Check Dist Directory](./reusable-workflows/check-dist.yml)
+- [Update Configs](./reusable-workflows/update-configs.yml)
 
 ## Actions
 
