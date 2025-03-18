@@ -29,12 +29,12 @@ on:
         type: string
         default: "['lint', 'format', 'typecheck', 'test', 'build']"
       run_id:
-        description: "Optional input to set the run id for the artifacts. Defaults to ${{github.run_id}} if not set"
+        description: "Optional input to set the run id for the artifacts. Defaults to `github.run_id` if not set"
         required: false
         type: string
         default: "${{github.run_id}}"
       environment:
-        description: "Optional input to set the environment for the job. Defaults to ${{ github.env.GH_ENV }} if not set"
+        description: "Optional input to set the environment for the job. Defaults to `github.env.GH_ENV` if not set"
         required: false
         type: string
         default: "${{ github.env.GH_ENV }}"
@@ -77,15 +77,16 @@ jobs:
       - name: Run integration tests
         run: pnpm run test:integration
 
-      - name: Upload code coverage artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: integration-coverage_${{ inputs.run_id }}
+ #     - name: Upload code coverage artifact
+ #       uses: actions/upload-artifact@v2
+ #       with:
+ #         name: integration-coverage_${{ inputs.run_id }}
+ #         path: ./coverage
 
    #   - name: Upload code coverage to CodeCov
    #     uses: codecov/codecov-action@v2.1.0
    #     with:
-   #       token: ${{ secrets.CODECOV_TOKEN }}
+   #       token:
    #       file: ./coverage/lcov.info
    #       flags: integration
    #       name: integration-coverage_${{ inputs.run_id }}

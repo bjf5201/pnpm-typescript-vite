@@ -29,12 +29,12 @@ on:
         type: string
         default: "['lint', 'format', 'typecheck', 'test', 'build']"
       run_id:
-        description: "Optional input to set the run id for the artifacts. Defaults to ${{github.run_id}} if not set"
+        description: "Optional input to set the run id for the artifacts. Defaults to `github.run_id` if not set"
         required: false
         type: string
         default: "${{github.run_id}}"
       environment:
-        description: "Optional input to set the environment for the workflow. Defaults to ${{ github.env.GH_ENV }} if not set"
+        description: "Optional input to set the environment for the workflow. Defaults to `github.env.GH_ENV` if not set"
         required: false
         type: string
         default: "${{ github.env.GH_ENV }}"

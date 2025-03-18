@@ -17,20 +17,19 @@ env:
   CI: true
 
 jobs:
-  environment: ${{ github.env.GH_ENV }}
   basic-check:
     name: Basic Check
-    uses: ./.github/workflows/reusable-workflows/basic-check.yml@main
+    uses: ./.github/workflows/basic-test.yml
     with:
       operating-systems: "['ubuntu-latest', 'windows-latest']"
 
   check-dist:
     name: Check transpiled JavaScript
-    uses: ./.github/workflows/reusable-workflows/check-dist.yml@main
+    uses: ./.github/workflows/check-dist.yml
     with:
       dist-path: "dist"
 
   integration-test:
     name: Integration Test
-    uses: ./.github/workflows/reusable-workflows/integration-test.yml@main
+    uses: ./.github/workflows/testing.yml
 
