@@ -12,7 +12,10 @@
     "test": "vitest",
     "test:ui": "vitest --ui",
     "lint": "eslint . --max-warnings=0",
-    "typecheck": "tsc -p tsconfig.browser.json --noEmit"
+    "format": "prettier --write .",
+    "typecheck:node": "tsc -p tsconfig.node.json --noEmit",
+    "typecheck:browser": "tsc -p tsconfig.browser.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "repository": {
     "type": "git",

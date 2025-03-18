@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    /* Personal Prefs */
-    "outDir": "./dist",
     /* Basics */
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "target": "ESNext",
