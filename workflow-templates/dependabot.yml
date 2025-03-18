@@ -1,0 +1,75 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: "thursday"
+    time: "14:00"
+  assignees:
+    - "@bjf5201"
+  reviewers:
+    - "@bjf5201"
+  ignore:
+    - dependency-name: "*"
+      update-types: ["version-update:semver-major"]
+    - dependency-name: "@storybook*"
+    - dependency-name: "storybook*"
+  open-pull-requests-limit: 10
+  labels:
+  - chore
+  - dependencies/npm
+  commit-message:
+    prefix: "chore"
+    include: "scope"
+
+- package-ecosystem: 'github-actions'
+  directory: '/'
+  schedule:
+    interval: weekly
+    day: 'thursday'
+    time: '14:00'
+  assignees:
+    - '@bjf5201'
+  reviewers:
+    - '@bjf5201'
+  ignore:
+    - dependency-name: '*'
+      update-types: ['version-update:semver-major']
+    - dependency-name: '!actions/*'
+  open-pull-requests-limit: 10
+  labels:
+    - chore
+    - dependencies/gh-actions
+  commit-message:
+    prefix: 'chore'
+    include: 'scope'
+
+
+- package-ecosystem: 'docker'
+  registries:
+    dockerhub:
+      type: docker-registry
+      url: 'https://registry.hub.docker.com
+      username: devethic
+      password: ${{ secrets.DOCKERHUB_TOKEN }}
+      replaces-base: true
+  directory: '/'
+  schedule:
+    interval: weekly
+    day: 'thursday'
+    time: '14:00'
+  assignees:
+    - '@bjf5201'
+  reviewers:
+    - '@bjf5201'
+  ignore:
+    - dependency-name: '*'
+      update-types: ['version-update:semver-major']
+  open-pull-requests-limit: 10
+  labels:
+    - chore
+    - dependencies/docker
+  commit-message:
+    prefix: 'chore'
+    include: 'scope'
