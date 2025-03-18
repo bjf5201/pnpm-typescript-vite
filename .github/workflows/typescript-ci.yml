@@ -19,17 +19,17 @@ env:
 jobs:
   basic-check:
     name: Basic Check
-    uses: ./.github/workflows/basic-check.yml@main
+    uses: ./.github/workflows/basic-check.yml
     with:
       operating-systems: "['ubuntu-latest', 'windows-latest']"
 
   check-dist:
     name: Check transpiled JavaScript
-    uses: ./.github/workflows/reusable-workflows/check-dist.yml@main
+    uses: ./.github/workflows/reusable-workflows/check-dist.yml
     with:
       dist-path: "dist"
 
   integration-test:
     name: Integration Test
-    uses: ./.github/workflows/reusable-workflows/integration-test.yml@main
+    uses: ./.github/workflows/reusable-workflows/integration-test.yml
 
