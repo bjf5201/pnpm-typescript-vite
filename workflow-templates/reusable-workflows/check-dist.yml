@@ -1,0 +1,95 @@
+name: Check Transpiled JavaScript
+
+on:
+  workflow_call:
+    inputs:
+      dist-path:
+        required: true
+        description: 'Path to the dist/ directory to compare against.'
+        type: string
+        default: './dist/'
+      node-version-file:
+        required: false
+        description: 'Node version file to use for the job.'
+        type: string
+        default: '.nvmrc'
+      node-caching:
+        required: false
+        description: 'Cache node_modules between jobs. Leave blank to disable.'
+        type: string
+        default: 'pnpm'
+      pnpm-version:
+        required: false
+        description: 'Version of pnpm to use for the job.'
+        type: string
+        default: ''
+      run_id:
+        description: 'Run ID of the workflow to download artifacts from.'
+        required: false
+        type: string
+        default: "${{ github.run_id }}"
+      environment:
+        description: 'Environment to run the job in.'
+        required: false
+        type: string
+        default: "${{ github.env.GH_ENV }}"
+
+jobs:
+  check-dist:
+    name: Check Transpiled JavaScript
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: pnpm setup
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+        with:
+          version: ${{ inputs.pnpm-version }}
+          run_install: false
+
+      - name: Node setup
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version-file: ${{ inputs.node-version-file }}
+          cache: ${{ inputs.node-caching }}
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint code
+        run: pnpm run lint
+
+      - name: Format code
+        run: pnpm run format
+
+      - name: Typecheck code
+        run: pnpm run typecheck
+
+      - name: Download dist artifact
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 #v4.1.9
+        with:
+          name: dist_${{ inputs.run_id }}
+          path: artifact-dist
+
+      - name: Rebuild dist directory
+        run: pnpm run build
+
+      # This will fail the workflow if the `dist/` directory is different than
+      # expected.
+      - name: Compare Directories
+        id: diff
+        run: |
+          if [ ! -d dist/ ]; then
+            echo "Expected dist/ directory does not exist.  See status below:"
+            ls -la ./
+            exit 1
+          fi
+          if [ "$(diff -r artifact-dist dist/ | wc -l)" -gt "0" ]; then
+            echo "Detected differences between the downloaded dist artifact and
+            rebuilt dist directory.  See status below:"
+            diff -r artifact-dist dist/
+            exit 1
+          fi

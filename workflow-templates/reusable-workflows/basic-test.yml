@@ -1,0 +1,94 @@
+name: Basic TypeScript validation
+
+on:
+  workflow_call:
+    inputs:
+      operating-systems:
+        description: "Optional input to set a list of operating systems which the workflow uses. Defaults to ['ubuntu-latest', 'windows-latest', 'macos-latest'] if not set"
+        required: false
+        type: string
+        default: "['ubuntu-latest', 'windows-latest', 'macos-latest']"
+      node-version-file:
+        description: "Optional input to set the version of Node.js used to build the project. The input syntax corresponds to the setup-node's format as of v4.2.0"
+        required: false
+        type: string
+        default: ".nvmrc"
+      pnpm-version:
+        description: "Optional input to set the version of pnpm used to build the project. The input syntax corresponds to the pnpm/action-setup's format as of v4.1.0"
+        type: string
+        required: false
+        default: ""
+      node-caching:
+        description: "Optional input to set up caching for the setup-node action. The input syntax corresponds to the setup-node's format as of v4.2.0. Set to an empty string if caching isn't needed"
+        required: false
+        type: string
+        default: "pnpm"
+      pnpm-commands:
+        description: "Optional input to set the pnpm commands to run. Defaults to ['lint', 'format', 'typecheck', 'test', 'build'] if not set"
+        required: false
+        type: string
+        default: "['lint', 'format', 'typecheck', 'test', 'build']"
+      run_id:
+        description: "Optional input to set the run id for the artifacts. Defaults to ${{github.run_id}} if not set"
+        required: false
+        type: string
+        default: "${{github.run_id}}"
+      environment:
+        description: "Optional input to set the environment for the workflow. Defaults to ${{ github.env.GH_ENV }} if not set"
+        required: false
+        type: string
+        default: "${{ github.env.GH_ENV }}"
+
+jobs:
+  build:
+    environment: ${{fromJson(inputs.environment)}}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ fromJson(inputs.operating-systems) }}
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: pnpm setup
+        uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
+        with:
+          version: ${{ inputs.pnpm-version }}
+          run_install: false
+
+      - name: Node setup
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version-file: ${{ inputs.node-version-file }}
+          cache: ${{ inputs.node-caching }}
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint code
+        run: pnpm run ${{ fromJson(inputs.pnpm-commands[0]) }}
+
+      - name: Format code
+        run: pnpm run format
+
+      - name: Type check
+        run: pnpm run typecheck
+
+      - name: Run unit tests
+        run: pnpm run test
+
+      - name: Build project
+        run: pnpm run build --if-present
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 #v4.6.1
+        with:
+          name: dist_${{ inputs.run_id }}
+          path: dist/*/**
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 #v4.6.1
+        with:
+          name: code-coverage_${{ inputs.run_id }}
+          path: dist/test/code-coverage.html

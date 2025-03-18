@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define source and destination directories
-SOURCE_DIR="./reusable-workflows"
+SOURCE_DIR="workflow-templates"
 DEST_DIR=".github/workflows"
 
 # Remove existing workflows
@@ -21,7 +21,7 @@ fi
 
 # Copy reusable workflows within the source directory to the destination directory
 for file in $SOURCE_DIR/*; do
-  cp $file $DEST_DIR
+  cp -r $file $DEST_DIR
 done
 
 echo "Workflows have been synchronized."
