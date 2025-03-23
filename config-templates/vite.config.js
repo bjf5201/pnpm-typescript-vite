@@ -22,6 +22,16 @@ export default defineConfig(({ mode }) => {
 				config: {
 					includeStack: true,
 				}
+			},
+			reporters: ['json', 'verbose'],
+			outputFile: './tests/output.json',
+			coverage: {
+				enabled: true,
+				provider: 'v8',
+				include: ['src/**/*.{ts,tsx}'],
+				clean: true,
+				reporter: ['json', 'text'],
+				reportsDirectory: './tests/coverage',
 			}
 		},
 		resolve: {
