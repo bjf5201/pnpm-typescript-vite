@@ -27,12 +27,12 @@ on:
         description: 'Run ID of the workflow to download artifacts from.'
         required: false
         type: string
-        default: "${{ github.run_id }}"
+        default: '${{ github.run_id }}'
       environment:
         description: 'Environment to run the job in.'
         required: false
         type: string
-        default: "${{ github.env.GH_ENV }}"
+        default: '${{ github.env.GH_ENV }}'
 
 jobs:
   check-dist:

@@ -1,27 +1,27 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    directory: "/"
+    directory: '/'
     schedule:
       interval: weekly
-      day: "thursday"
-      time: "14:00"
+      day: 'thursday'
+      time: '14:00'
     assignees:
-      - "@bjf5201"
+      - '@bjf5201'
     reviewers:
-      - "@bjf5201"
+      - '@bjf5201'
     ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
-      - dependency-name: "@storybook*"
-      - dependency-name: "storybook*"
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
+      - dependency-name: '@storybook*'
+      - dependency-name: 'storybook*'
     open-pull-requests-limit: 10
     labels:
       - chore
       - dependencies/npm
     commit-message:
-      prefix: "chore"
-      include: "scope"
+      prefix: 'chore'
+      include: 'scope'
 
   - package-ecosystem: 'github-actions'
     directory: '/'

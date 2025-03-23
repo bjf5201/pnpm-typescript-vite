@@ -18,21 +18,16 @@ on:
         description: 'Cache node_modules between jobs. Leave blank to disable.'
         type: string
         default: 'pnpm'
-      pnpm-version:
-        required: false
-        description: 'Version of pnpm to use for the job.'
-        type: string
-        default: ''
       run_id:
         description: 'Run ID of the workflow to download artifacts from.'
         required: false
         type: string
-        default: "${{ github.run_id }}"
+        default: '${{ github.run_id }}'
       environment:
         description: 'Environment to run the job in.'
         required: false
         type: string
-        default: "${{ github.env.GH_ENV }}"
+        default: '${{ github.env.GH_ENV }}'
 
 jobs:
   check-dist:
@@ -47,7 +42,6 @@ jobs:
       - name: pnpm setup
         uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
         with:
-          version: ${{ inputs.pnpm-version }}
           run_install: false
 
       - name: Node setup

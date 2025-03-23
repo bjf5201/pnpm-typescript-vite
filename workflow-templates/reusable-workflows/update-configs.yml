@@ -7,47 +7,47 @@ on:
   workflow_call:
     inputs:
       base-pr-branch:
-        description: "Optional input to specify the branch where PR changes should be integrated."
+        description: 'Optional input to specify the branch where PR changes should be integrated.'
         required: false
         type: string
-        default: "main"
+        default: 'main'
       head-pr-branch:
-        description: "Optional input to specify the branch where PR changes should be made."
+        description: 'Optional input to specify the branch where PR changes should be made.'
         required: false
         type: string
-        default: "config-auto-update"
+        default: 'config-auto-update'
       source-folder:
-        description: "Optional input to set a relative path to a folder where reference configuration files are stored."
+        description: 'Optional input to set a relative path to a folder where reference configuration files are stored.'
         required: false
         type: string
-        default: "./"
+        default: './'
       target-folder:
-        description: "Optional input to set a relative path to a folder where updated configuration files should be placed."
+        description: 'Optional input to set a relative path to a folder where updated configuration files should be placed.'
         required: false
         type: string
-        default: "/"
+        default: '/'
       reference-files:
-        description: "Optional input to specify which files should be used as references. Files can be supplied in comma-separated format, wildcards are supported."
+        description: 'Optional input to specify which files should be used as references. Files can be supplied in comma-separated format, wildcards are supported.'
         required: false
         type: string
-        default: "*"
+        default: '*'
 
 jobs:
   update-configuration-files:
-    runs-on: "ubuntu-latest"
+    runs-on: 'ubuntu-latest'
     steps:
       - name: Checkout ${{github.repository}} repository
         uses: actions/checkout@v4
         with:
-          ref: "${{inputs.base-pr-branch}}"
-          path: "src"
+          ref: '${{inputs.base-pr-branch}}'
+          path: 'src'
 
       - name: Checkout reusable workflows repository
         uses: actions/checkout@v4
         with:
           repository:
-          ref: "main"
-          path: "config-templates"
+          ref: 'main'
+          path: 'config-templates'
 
       - name: Configure git service account
         run: |

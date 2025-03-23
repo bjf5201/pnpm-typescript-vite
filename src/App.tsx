@@ -1,13 +1,11 @@
-import "./App.css";
+import './App.css';
 
 export default function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Hello, World!
-        </p>
-      </header>
-    </div>
-  );
+	return (
+		<div className="qwerty-flow">
+			<header role="header">
+				Hello, World!
+			</header>
+		</div>
+	);
 }

@@ -26,4 +26,3 @@ GitHub workflow and action templates, as well as some configurations.
 - [Eslint configs](./config-templates/eslint.config.ts)
 - [Prettier configs](./config-templates/prettier.config.js)
 - [TypeScript configs](./config-templates/tsconfig.github.json)
-

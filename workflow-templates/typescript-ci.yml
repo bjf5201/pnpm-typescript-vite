@@ -2,9 +2,9 @@ name: TypeScript CI Workflow Template
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches: [$default-branch]
   pull_request:
-    branches: [ $default-branch ]
+    branches: [$default-branch]
 
 permissions:
   contents: read
@@ -12,7 +12,7 @@ permissions:
 env:
   NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
   DOCKER_TOKEN: ${{ secrets.DOCKER_HUB }}
- # CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  # CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   GH_ENV: testing
   CI: true
 
@@ -20,16 +20,13 @@ jobs:
   basic-check:
     name: Basic Check
     uses: ./.github/workflows/basic-test.yml
-    with:
-      operating-systems: "['ubuntu-latest', 'windows-latest']"
 
   check-dist:
     name: Check transpiled JavaScript
     uses: ./.github/workflows/check-dist.yml
     with:
-      dist-path: "dist"
+      dist-path: 'dist'
 
   integration-test:
     name: Integration Test
     uses: ./.github/workflows/testing.yml
-
