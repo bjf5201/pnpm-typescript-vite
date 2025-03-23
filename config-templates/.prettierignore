@@ -1,0 +1,4 @@
+.github
+.pnpm-store
+workflow-templates
+node_modules
