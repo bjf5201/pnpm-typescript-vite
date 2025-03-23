@@ -1,6 +1,21 @@
-# GitHub Dots
+# TypeScript/PNPM/Vite Project Template
 
-GitHub workflow and action templates, as well as some configurations.
+Setup template that includes GitHub workflow and action templates, as well as some configurations for the typical tools I use on web projects, including:
+  - TypeScript
+  - PNPM (via .nvmrc)
+  - Vite
+  - Vitest
+  - Eslint
+  - Prettier
+  - Commitlint
+  - GitHub Actions
+  - Docker
+  - GitHub
+  - Tailwind
+  - PostCSS
+  - Husky
+  - Lint-Staged
+  - Changesets
 
 ## Workflow Templates
 
