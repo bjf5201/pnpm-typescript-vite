@@ -1,4 +1,8 @@
 .github
 .pnpm-store
-workflow-templates
 node_modules
+pnpm-lock.yaml
+tests/coverage
+.husky
+.git
+dist

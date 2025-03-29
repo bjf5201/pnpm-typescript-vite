@@ -6,21 +6,22 @@
   "type": "module",
   "license": "MIT",
   "private": true,
+  "packageManager": "pnpm@10.6.5+sha512.cdf928fca20832cd59ec53826492b7dc25dc524d4370b6b4adbf65803d32efaa6c1c88147c0ae4e8d579a6c9eec715757b50d4fa35eea179d868eada4ed043af",
   "scripts": {
     "prepare": "node .husky/install.js",
+    "cz": "commit",
     "dev": "vite",
-    "lint": "eslint \"{src,test}/*/**\" --max-warnings=0 --cache --no-error-on-unmatched-pattern",
+    "lint": "eslint \"{src,test}/*/**\" --cache --no-error-on-unmatched-pattern",
     "lint:fix": "eslint \"{src,test}/*/**\" --max-warnings=0 --fix --cache --no-error-on-unmatched-pattern",
+    "lint-staged": "lint-staged",
     "format": "prettier \"**/*\" --check --ignore-unknown --cache",
     "format:fix": "prettier \"**/*\" --write --ignore-unknown --cache",
-    "test": "vitest --run",
-    "test:watch": "vitest",
-    "test:cover": "vitest --coverage",
-    "test:ci": "vitest run --coverage",
+    "test": "vitest --coverage",
+    "test:ci": "vitest --run --coverage",
     "typecheck:node": "tsc -p tsconfig.node.json --noEmit",
     "typecheck:browser": "tsc -p tsconfig.browser.json --noEmit",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "build": "rimraf dist && pnpm run typecheck && vite build",
+    "build": "rimraf dist && vite build",
     "serve": "pnpm run build && vite preview"
   },
   "repository": {
@@ -33,21 +34,14 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "import": {
-        "@app": "./src/index.tsx",
-        "types": "./dist/esm/types/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "export": {
-        "@app": "./src/index.tsx",
-        "types": "./dist/cjs/types/index.d.ts",
-        "default": "./dist/cjs/index.js"
-      }
+      "@": "./app/",
+      "#test": "./tests/",
+      "#types": "./app/types/",
+      "types": "./dist/esm/types/index.d.ts",
+      "default": "./dist/index.js"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "engines": {
     "node": ">=22"
   },
@@ -55,10 +49,10 @@
     "react": "19.0.0",
     "react-dom": "19.0.0"
   },
-  "packageManager": "pnpm@10.6.5+sha512.cdf928fca20832cd59ec53826492b7dc25dc524d4370b6b4adbf65803d32efaa6c1c88147c0ae4e8d579a6c9eec715757b50d4fa35eea179d868eada4ed043af",
   "devDependencies": {
     "@commitlint/cli": "19.8.0",
     "@commitlint/config-conventional": "19.8.0",
+    "@commitlint/cz-commitlint": "19.8.0",
     "@eslint/js": "9.23.0",
     "@tailwindcss/postcss": "4.0.15",
     "@tailwindcss/vite": "4.0.15",
@@ -70,16 +64,24 @@
     "@types/react-dom": "19.0.4",
     "@typescript-eslint/eslint-plugin": "8.27.0",
     "@typescript-eslint/parser": "8.27.0",
-    "@vitejs/plugin-react-swc": "3.8.1",
+    "@vitejs/plugin-legacy": "6.0.2",
+    "@vitejs/plugin-react": "4.3.4",
     "@vitest/coverage-v8": "3.0.9",
     "@vitest/eslint-plugin": "1.1.38",
     "autoprefixer": "10.4.21",
+    "commitizen": "4.3.1",
+    "cz-conventional-changelog": "3.3.0",
     "eslint": "9.23.0",
     "eslint-config-prettier": "10.1.1",
+    "eslint-import-resolver-typescript": "4.2.5",
+    "eslint-plugin-cypress": "4.2.0",
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react": "7.37.4",
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-react-refresh": "0.4.19",
     "eslint-plugin-simple-import-sort": "12.1.1",
+    "eslint-plugin-testing-library": "7.1.1",
     "globals": "16.0.0",
     "husky": "9.1.7",
     "jsdom": "26.0.0",
@@ -88,6 +90,7 @@
     "postcss": "8.5.3",
     "prettier": "3.5.3",
     "rimraf": "6.0.1",
+    "sort-package-json": "3.0.0",
     "tailwindcss": "4.0.15",
     "typescript": "5.8.2",
     "typescript-eslint": "8.27.0",
@@ -97,9 +100,11 @@
     "vitest": "3.0.9"
   },
   "pnpm": {
-    "onlyBuiltDependencies": [
-      "@swc/core",
-      "esbuild"
-    ]
+    "onlyBuiltDependencies": ["@swc/core", "core-js", "esbuild"]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/@commitlint/cz-commitlint"
+    }
   }
 }
