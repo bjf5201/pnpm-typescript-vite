@@ -6,3 +6,4 @@ tests/coverage
 .husky
 .git
 dist
+public

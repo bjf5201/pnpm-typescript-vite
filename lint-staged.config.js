@@ -1,7 +1,7 @@
 export default {
   '{app,lib,test}/**/*}': [
-    'pnpm lint:fix',
-    'pnpm format:fix',
+    'pnpm lint',
+    'pnpm format',
     'pnpm test:ci',
     'pnpm typecheck',
     'pnpm build',
