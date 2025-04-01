@@ -60,7 +60,6 @@ Setup template that includes GitHub workflow and action templates, as well as so
 Turn these into issues and track in "Dot Files" project.
 
 - Set up local TypeScript CI
-  - Fix eslint
   - Fix commitlint/commitizen setup
   - Set up lint-staged
   - Set up semantic versioning tool
