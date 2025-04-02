@@ -69,9 +69,6 @@ In this repo, "Workflow Templates" does not refer to the feature GitHub has wher
 Turn these into issues and track in "Dot Files" project.
 
 - Set up local TypeScript CI
-  - Fix lint-staged/husky setup
-    - Order of pnpm scripts
-    - Pnpm script formats
   - Fix commitlint/commitizen setup
   - Set up semantic versioning tool/release system
   - Set up changesets
