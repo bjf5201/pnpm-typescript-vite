@@ -1,37 +1,55 @@
 /// <reference types="vitest/config" />
-import { type UserConfig, defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-export default defineConfig(({ mode }): UserConfig => {
+export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   return {
     plugins: [
       react(),
-      tailwindcss() as unknown as import('vite').PluginOption,
+      tailwindcss(),
       tsconfigPaths(),
-    ] as import('vite').PluginOption[],
+    ],
     test: {
       alias: {
         '@/': new URL('./app/', import.meta.url).pathname,
+        '#tests': new URL('./tests/', import.meta.url).pathname,
+        '#types': new URL('./app/types/', import.meta.url).pathname,
       },
       coverage: {
         enabled: true,
         provider: 'v8',
-        include: ['app/**/*.{ts,tsx}'],
+        include: [
+          'app/**/*.{ts,tsx}',
+          'lib/**/*.ts',
+        ],
         clean: true,
-        reporter: ['json', 'text'],
+        reporter: [
+          'json',
+          'text',
+        ],
         reportsDirectory: './tests/coverage',
       },
       css: {
-        exclude: [],
+        include: [/\.(css|scss|sass)$/],
+        modules: {
+          classNameStrategy: 'scoped',
+        },
+      },
+      typecheck: {
+        enabled: true,
       },
       environment: 'jsdom',
       globals: true,
       outputFile: './tests/output.json',
-      reporters: ['json', 'verbose'],
+      reporters: [
+        'json',
+        'verbose',
+      ],
       setupFiles: ['./tests/setupTests.ts'],
+      mockReset: true,
     },
     root: './',
     build: {

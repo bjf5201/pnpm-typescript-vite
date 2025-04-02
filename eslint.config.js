@@ -21,10 +21,18 @@ const gitignorePath = path.join(__dirname, '.gitignore');
 export default defineConfig([
   includeIgnoreFile(gitignorePath),
   {
-    ignores: ['public', '.husky', '.storybook'],
+    ignores: [
+      'public',
+      '.husky',
+      '.storybook',
+      'pnpm-lock.yaml',
+    ],
   },
   {
-    extends: [js.configs.recommended, ...tseslint.configs.recommendedTypeChecked],
+    extends: [
+      js.configs.recommended,
+      ...tseslint.configs.recommended,
+    ],
     files: ['**/*.{ts,tsx,js,jsx,cjs,mjs}'],
     languageOptions: {
       ecmaVersion: 2022,
@@ -33,8 +41,8 @@ export default defineConfig([
         ...globals.browser,
       },
       parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
+        projectService: true,
+        tsconfigRootDir: import.meta.url,
       },
       sourceType: 'module',
     },
@@ -59,7 +67,12 @@ export default defineConfig([
           ignoreCase: false,
           // using eslint-plugin-simple-import-sort instead
           ignoreDeclarationSort: true,
-          memberSyntaxSortOrder: ['none', 'all', 'multiple', 'single'],
+          memberSyntaxSortOrder: [
+            'none',
+            'all',
+            'multiple',
+            'single',
+          ],
           allowSeparatedGroups: true,
         },
       ],
@@ -71,7 +84,10 @@ export default defineConfig([
           argsIgnorePattern: '^_',
         },
       ],
-      '@typescript-eslint/consistent-type-definitions': ['warn', 'interface'],
+      '@typescript-eslint/consistent-type-definitions': [
+        'warn',
+        'interface',
+      ],
       '@typescript-eslint/naming-convention': [
         'error',
         {
@@ -86,7 +102,10 @@ export default defineConfig([
       'react/prop-types': 'off',
       'react-hooks/exhaustive-deps': 'warn',
       'react-hooks/rules-of-hooks': 'error',
-      'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+      'react-refresh/only-export-components': [
+        'warn',
+        { allowConstantExport: true },
+      ],
     },
   },
   {
@@ -94,7 +113,10 @@ export default defineConfig([
     files: ['**/*.stories.{ts,tsx,js,jsx}'],
   },
   {
-    extends: [vitest.configs.recommended, testingLibrary.configs['flat/react']],
+    extends: [
+      vitest.configs.recommended,
+      testingLibrary.configs['flat/react'],
+    ],
     files: ['**/*.{spec,test}.{ts,tsx}'],
     languageOptions: {
       globals: {
@@ -113,6 +135,12 @@ export default defineConfig([
       'testing-library/prefer-user-event': 'warn',
       'testing-library/prefer-presence-queries': 'error',
     },
+  },
+  {
+    files: ['**/*.js'],
+    extends: [
+      tseslint.configs.disableTypeChecked,
+    ],
   },
   // turns off all rules that conflict with Prettier formatter
   // MUST be last

@@ -1,2 +1,9 @@
 #!/usr/bin/env bash
-pnpm lint-staged
+echo 'Running pre commit checks...'
+
+pnpm run commit:pre || (
+	echo '❌ There was a problem with your code. Run `pnpm lint-staged` to see the errors.'
+	false;
+)
+
+echo '✨🚀🏄‍♂️🍻 No error found. Running commitizen now...'

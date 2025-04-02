@@ -1,0 +1,7 @@
+#!usr/env/bin/bash
+
+echo '🏗️ Running commitlint checks...'
+
+pnpm commit:devmoji
+
+echo '🏗️ Commitlint checks complete! Finalizing commit...'

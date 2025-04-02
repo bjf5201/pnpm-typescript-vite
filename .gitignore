@@ -7,14 +7,25 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Build info output
 node_modules
 dist
-dist-ssr
+dist-*
 *.local
+.eslintcache
+*.tsbuildinfo
+
+# Test info output
+tests/output.json
+tests/coverage
+
+# Husky template files
+.husky/_/**/*
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
 .DS_Store
 *.suo
@@ -23,10 +34,4 @@ dist-ssr
 *.sln
 *.sw?
 
-# Test/Build info output
-tests/output.json
-tests/coverage
-.eslintcache
 
-# Husky template files
-.husky/_/**/*
